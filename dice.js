@@ -102,14 +102,14 @@ class DiceGame {
   }
 
   async animateDiceRoll() {
-    const diceImages = [this.dice1, this.dice2];
+    const diceElements = [this.dice1, this.dice2];
     
     // Add rolling animation class
-    diceImages.forEach(dice => {
+    diceElements.forEach(dice => {
       dice.classList.add('rolling');
     });
     
-    // Simulate rolling with multiple random images
+    // Simulate rolling with multiple random values
     const rollDuration = 800;
     const rollInterval = 100;
     const rollCount = rollDuration / rollInterval;
@@ -118,23 +118,23 @@ class DiceGame {
       const tempNumber1 = this.generateRandomNumber();
       const tempNumber2 = this.generateRandomNumber();
       
-      this.dice1.src = `./images/dice${tempNumber1}.png`;
-      this.dice2.src = `./images/dice${tempNumber2}.png`;
+      this.dice1.setAttribute('data-value', tempNumber1);
+      this.dice2.setAttribute('data-value', tempNumber2);
       
       await this.sleep(rollInterval);
     }
     
     // Remove rolling animation class
-    diceImages.forEach(dice => {
+    diceElements.forEach(dice => {
       dice.classList.remove('rolling');
     });
   }
 
   updateDiceImages(number1, number2) {
-    this.dice1.src = `./images/dice${number1}.png`;
-    this.dice1.alt = `Dice showing ${number1}`;
-    this.dice2.src = `./images/dice${number2}.png`;
-    this.dice2.alt = `Dice showing ${number2}`;
+    this.dice1.setAttribute('data-value', number1);
+    this.dice1.setAttribute('aria-label', `Dice showing ${number1}`);
+    this.dice2.setAttribute('data-value', number2);
+    this.dice2.setAttribute('aria-label', `Dice showing ${number2}`);
   }
 
   determineWinner(number1, number2) {
@@ -186,7 +186,9 @@ class DiceGame {
       
       // Add winner styling to the winning dice
       const winnerElement = result.winner === 'player1' ? dice1Element : dice2Element;
+      const winnerCssDice = result.winner === 'player1' ? this.dice1 : this.dice2;
       winnerElement.classList.add('winner');
+      winnerCssDice.classList.add('winner');
     }
     
     // Add result animation
@@ -236,7 +238,9 @@ class DiceGame {
 
   clearWinnerStates() {
     const diceElements = document.querySelectorAll('.dice');
+    const cssDiceElements = document.querySelectorAll('.css-dice');
     diceElements.forEach(dice => dice.classList.remove('winner'));
+    cssDiceElements.forEach(dice => dice.classList.remove('winner'));
     this.gameTitle.className = '';
   }
 
@@ -251,10 +255,10 @@ class DiceGame {
     this.clearWinnerStates();
     
     // Reset dice to default
-    this.dice1.src = './images/dice6.png';
-    this.dice1.alt = 'Dice showing 6';
-    this.dice2.src = './images/dice6.png';
-    this.dice2.alt = 'Dice showing 6';
+    this.dice1.setAttribute('data-value', '6');
+    this.dice1.setAttribute('aria-label', 'Dice showing 6');
+    this.dice2.setAttribute('data-value', '6');
+    this.dice2.setAttribute('aria-label', 'Dice showing 6');
     
     // Reset title
     this.gameTitle.textContent = 'Dice Battle';

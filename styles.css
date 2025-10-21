@@ -263,19 +263,213 @@ body {
   position: relative;
   margin: 1.5rem 0;
   perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.dice-image {
+/* Modern CSS Dice */
+.css-dice {
   width: 120px;
   height: 120px;
-  object-fit: contain;
+  position: relative;
+  transform-style: preserve-3d;
   transition: var(--transition);
+  cursor: pointer;
+}
+
+.css-dice.rolling {
+  animation: diceRoll 0.8s ease-in-out;
+}
+
+.dice-face {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border: 3px solid var(--border-color);
   border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+  transition: var(--transition);
+}
+
+/* Light theme dice face */
+[data-theme="light"] .dice-face {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
   box-shadow: var(--shadow-md);
 }
 
-.dice-image.rolling {
-  animation: diceRoll 0.8s ease-in-out;
+/* Dark theme dice face */
+[data-theme="dark"] .dice-face {
+  background: linear-gradient(145deg, #334155, #1e293b);
+  border-color: #475569;
+}
+
+.dice-face:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
+}
+
+/* Light theme dots */
+[data-theme="light"] .dot {
+  background: var(--primary-color);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme dots */
+[data-theme="dark"] .dot {
+  background: var(--accent-color);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Dice face patterns for different values */
+.css-dice[data-value="1"] .dice-face {
+  grid-template-areas: 
+    ". . ."
+    ". center ."
+    ". . .";
+}
+
+.css-dice[data-value="1"] .dot:nth-child(1) {
+  grid-area: center;
+}
+
+.css-dice[data-value="2"] .dice-face {
+  grid-template-areas: 
+    "top-left . ."
+    ". . ."
+    ". . bottom-right";
+}
+
+.css-dice[data-value="2"] .dot:nth-child(1) {
+  grid-area: top-left;
+}
+
+.css-dice[data-value="2"] .dot:nth-child(2) {
+  grid-area: bottom-right;
+}
+
+.css-dice[data-value="3"] .dice-face {
+  grid-template-areas: 
+    "top-left . ."
+    ". center ."
+    ". . bottom-right";
+}
+
+.css-dice[data-value="3"] .dot:nth-child(1) {
+  grid-area: top-left;
+}
+
+.css-dice[data-value="3"] .dot:nth-child(2) {
+  grid-area: center;
+}
+
+.css-dice[data-value="3"] .dot:nth-child(3) {
+  grid-area: bottom-right;
+}
+
+.css-dice[data-value="4"] .dice-face {
+  grid-template-areas: 
+    "top-left . top-right"
+    ". . ."
+    "bottom-left . bottom-right";
+}
+
+.css-dice[data-value="4"] .dot:nth-child(1) {
+  grid-area: top-left;
+}
+
+.css-dice[data-value="4"] .dot:nth-child(2) {
+  grid-area: top-right;
+}
+
+.css-dice[data-value="4"] .dot:nth-child(3) {
+  grid-area: bottom-left;
+}
+
+.css-dice[data-value="4"] .dot:nth-child(4) {
+  grid-area: bottom-right;
+}
+
+.css-dice[data-value="5"] .dice-face {
+  grid-template-areas: 
+    "top-left . top-right"
+    ". center ."
+    "bottom-left . bottom-right";
+}
+
+.css-dice[data-value="5"] .dot:nth-child(1) {
+  grid-area: top-left;
+}
+
+.css-dice[data-value="5"] .dot:nth-child(2) {
+  grid-area: top-right;
+}
+
+.css-dice[data-value="5"] .dot:nth-child(3) {
+  grid-area: center;
+}
+
+.css-dice[data-value="5"] .dot:nth-child(4) {
+  grid-area: bottom-left;
+}
+
+.css-dice[data-value="5"] .dot:nth-child(5) {
+  grid-area: bottom-right;
+}
+
+.css-dice[data-value="6"] .dice-face {
+  grid-template-areas: 
+    "top-left . top-right"
+    "middle-left . middle-right"
+    "bottom-left . bottom-right";
+}
+
+.css-dice[data-value="6"] .dot:nth-child(1) {
+  grid-area: top-left;
+}
+
+.css-dice[data-value="6"] .dot:nth-child(2) {
+  grid-area: top-right;
+}
+
+.css-dice[data-value="6"] .dot:nth-child(3) {
+  grid-area: middle-left;
+}
+
+.css-dice[data-value="6"] .dot:nth-child(4) {
+  grid-area: middle-right;
+}
+
+.css-dice[data-value="6"] .dot:nth-child(5) {
+  grid-area: bottom-left;
+}
+
+.css-dice[data-value="6"] .dot:nth-child(6) {
+  grid-area: bottom-right;
+}
+
+/* Hide extra dots for lower values */
+.css-dice[data-value="1"] .dot:nth-child(n+2),
+.css-dice[data-value="2"] .dot:nth-child(n+3),
+.css-dice[data-value="3"] .dot:nth-child(n+4),
+.css-dice[data-value="4"] .dot:nth-child(n+5),
+.css-dice[data-value="5"] .dot:nth-child(n+6) {
+  display: none;
 }
 
 .player-score {
@@ -452,10 +646,52 @@ body {
 }
 
 @keyframes diceRoll {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(90deg) scale(1.1); }
-  50% { transform: rotate(180deg) scale(1.2); }
-  75% { transform: rotate(270deg) scale(1.1); }
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+  }
+  25% { 
+    transform: rotate(90deg) scale(1.1) rotateX(20deg); 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.2) rotateY(20deg); 
+  }
+  75% { 
+    transform: rotate(270deg) scale(1.1) rotateX(-20deg); 
+  }
+}
+
+/* Enhanced dice animations */
+.css-dice.rolling .dice-face {
+  animation: diceFaceRoll 0.8s ease-in-out;
+}
+
+@keyframes diceFaceRoll {
+  0%, 100% { 
+    transform: rotate(0deg); 
+  }
+  25% { 
+    transform: rotate(90deg) scale(0.9); 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.1); 
+  }
+  75% { 
+    transform: rotate(270deg) scale(0.9); 
+  }
+}
+
+/* Winner dice glow effect */
+.css-dice.winner {
+  animation: winnerGlow 1s ease-in-out;
+}
+
+@keyframes winnerGlow {
+  0%, 100% { 
+    box-shadow: var(--shadow-lg); 
+  }
+  50% { 
+    box-shadow: 0 0 30px var(--accent-color), var(--shadow-xl); 
+  }
 }
 
 @keyframes winnerPulse {
