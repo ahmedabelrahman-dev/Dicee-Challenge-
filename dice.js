@@ -10,11 +10,15 @@ class DiceGame {
     this.score2Element = document.getElementById('score2');
     this.totalRoundsElement = document.getElementById('totalRounds');
     this.totalDrawsElement = document.getElementById('totalDraws');
+    this.themeToggle = document.getElementById('themeToggle');
+    this.themeIcon = document.getElementById('themeIcon');
+    this.themeText = document.getElementById('themeText');
     
     this.scores = { player1: 0, player2: 0 };
     this.totalRounds = 0;
     this.totalDraws = 0;
     this.isRolling = false;
+    this.currentTheme = this.getStoredTheme() || 'dark';
     
     this.init();
   }
@@ -22,12 +26,14 @@ class DiceGame {
   init() {
     this.bindEvents();
     this.updateDisplay();
+    this.setTheme(this.currentTheme);
     this.animateInitialLoad();
   }
 
   bindEvents() {
     this.rollButton.addEventListener('click', () => this.rollDice());
     this.resetButton.addEventListener('click', () => this.resetGame());
+    this.themeToggle.addEventListener('click', () => this.toggleTheme());
     
     // Keyboard support
     document.addEventListener('keydown', (e) => {
@@ -37,6 +43,9 @@ class DiceGame {
       } else if (e.code === 'KeyR' && e.ctrlKey) {
         e.preventDefault();
         this.resetGame();
+      } else if (e.code === 'KeyT' && e.ctrlKey) {
+        e.preventDefault();
+        this.toggleTheme();
       }
     });
 
@@ -274,6 +283,53 @@ class DiceGame {
 
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Theme Management Methods
+  toggleTheme() {
+    this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    this.setTheme(this.currentTheme);
+    this.storeTheme(this.currentTheme);
+    this.animateThemeToggle();
+  }
+
+  setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    this.updateThemeButton(theme);
+  }
+
+  updateThemeButton(theme) {
+    if (theme === 'light') {
+      this.themeIcon.textContent = '☀️';
+      this.themeText.textContent = 'Light';
+    } else {
+      this.themeIcon.textContent = '🌙';
+      this.themeText.textContent = 'Dark';
+    }
+  }
+
+  animateThemeToggle() {
+    this.themeToggle.classList.add('rotating');
+    setTimeout(() => {
+      this.themeToggle.classList.remove('rotating');
+    }, 600);
+  }
+
+  getStoredTheme() {
+    try {
+      return localStorage.getItem('diceGameTheme');
+    } catch (error) {
+      console.log('LocalStorage not available');
+      return null;
+    }
+  }
+
+  storeTheme(theme) {
+    try {
+      localStorage.setItem('diceGameTheme', theme);
+    } catch (error) {
+      console.log('LocalStorage not available');
+    }
   }
 }
 
