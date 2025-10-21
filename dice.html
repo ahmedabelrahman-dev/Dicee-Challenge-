@@ -3,27 +3,72 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Dicee</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dice Game - Modern Edition</title>
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Lobster" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
 </head>
 
 <body>
-  <div class="container">
-    <h1>Refresh Me</h1>
+  <main class="container">
+    <header class="game-header">
+      <h1 id="game-title">Dice Battle</h1>
+      <p class="game-subtitle">Roll the dice and see who wins!</p>
+    </header>
 
-    <div class="dice">
-      <p>Player 1</p>
-      <img class="img1" src="./images/dice6.png" />
-    </div>
+    <section class="game-board">
+      <div class="dice-container">
+        <div class="dice" data-player="1">
+          <h3 class="player-name">Player 1</h3>
+          <div class="dice-image-container">
+            <img class="dice-image" id="dice1" src="./images/dice6.png" alt="Dice showing 6" />
+          </div>
+          <div class="player-score" id="score1">Score: 0</div>
+        </div>
 
-    <div class="dice">
-      <p>Player 2</p>
-      <img class="img2" src="./images/dice6.png" />
-    </div>
-  </div>
+        <div class="vs-indicator">
+          <span class="vs-text">VS</span>
+        </div>
 
-  <footer>www 🎲 App Brewery 🎲 com</footer>
+        <div class="dice" data-player="2">
+          <h3 class="player-name">Player 2</h3>
+          <div class="dice-image-container">
+            <img class="dice-image" id="dice2" src="./images/dice6.png" alt="Dice showing 6" />
+          </div>
+          <div class="player-score" id="score2">Score: 0</div>
+        </div>
+      </div>
+
+      <div class="game-controls">
+        <button class="roll-button" id="rollButton" aria-label="Roll the dice">
+          <span class="button-text">Roll Dice</span>
+          <span class="button-icon">🎲</span>
+        </button>
+        <button class="reset-button" id="resetButton" aria-label="Reset game">
+          <span class="button-text">Reset</span>
+          <span class="button-icon">🔄</span>
+        </button>
+      </div>
+
+      <div class="game-stats">
+        <div class="stat-item">
+          <span class="stat-label">Total Rounds:</span>
+          <span class="stat-value" id="totalRounds">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Draws:</span>
+          <span class="stat-value" id="totalDraws">0</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="game-footer">
+    <p>Made with ❤️ using modern web technologies</p>
+  </footer>
+
   <script src="./dice.js"></script>
 </body>
 
